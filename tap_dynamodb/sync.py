@@ -1,6 +1,7 @@
 from singer import metadata
 import singer
 from tap_dynamodb.sync_strategies import log_based
+from tap_dynamodb.sync_strategies.query import sync_query
 from tap_dynamodb.sync_strategies import full_table
 
 LOGGER = singer.get_logger()
@@ -42,6 +43,9 @@ def sync_stream(config, state, stream):
     if replication_method == 'FULL_TABLE':
         LOGGER.info("Syncing full table for stream: %s", table_name)
         rows_saved += full_table.sync(config, state, stream)
+    elif replication_method == "QUERY":
+        LOGGER.info(f"Syncing via a query for stream {table_name}")
+        rows_saved += sync_query(config, state, stream)
     elif replication_method == 'LOG_BASED':
         LOGGER.info("Syncing log based for stream: %s", table_name)
 

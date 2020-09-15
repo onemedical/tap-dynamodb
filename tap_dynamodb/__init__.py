@@ -12,7 +12,7 @@ from tap_dynamodb.sync import sync_stream
 
 LOGGER = singer.get_logger()
 
-REQUIRED_CONFIG_KEYS = ["account_id", "external_id", "role_name", "region_name"]
+REQUIRED_CONFIG_KEYS = ["region_name"]
 
 def do_discover(config):
     LOGGER.info("Starting discover")
@@ -82,10 +82,6 @@ def get_sync_summary(catalog, counts, times):
 def main():
     args = singer.utils.parse_args(REQUIRED_CONFIG_KEYS)
     config = args.config
-
-    # TODO Is this the right way to do this? It seems bad
-    if not config.get('use_local_dynamo'):
-        setup_aws_client(config)
 
     if args.discover:
         do_discover(args.config)
