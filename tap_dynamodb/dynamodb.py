@@ -51,7 +51,6 @@ def setup_aws_client(config):
         extra_args={
             'DurationSeconds': 3600,
             'RoleSessionName': 'TapDynamodDB',
-            'ExternalId': config['external_id']
         },
         cache=JSONFileCache()
     )

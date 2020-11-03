@@ -83,6 +83,9 @@ def main():
     args = singer.utils.parse_args(REQUIRED_CONFIG_KEYS)
     config = args.config
 
+    if config.get("account_id") and config.get("role_name"):
+        setup_aws_client(config)
+
     if args.discover:
         do_discover(args.config)
     elif args.catalog:
